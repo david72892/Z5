@@ -1,11 +1,10 @@
 name: Get Cookie
 
+# Runs automatically every hour + manual trigger
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: '0 * * * *' # every hour
+    - cron: '0 * * * *'  # At minute 0 every hour
+  workflow_dispatch:      # Allows manual run too
 
 jobs:
   fetch-cookie:
@@ -26,10 +25,5 @@ jobs:
     - name: Run cookie fetcher
       run: |
         python get_cookie.py
+        echo "\n✅ Contents of cookie.txt:"
         cat cookie.txt || echo "cookie.txt not found"
-
-    - name: Upload cookie file
-      uses: actions/upload-artifact@v4
-      with:
-        name: cookie
-        path: cookie.txt
