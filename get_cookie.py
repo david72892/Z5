@@ -12,21 +12,19 @@ try:
     final_url = response.url
     print(f"Final URL: {final_url}")
 
+    # Extract 'hdntl' parameter (cookie)
     parsed_url = urlparse(final_url)
     query_params = parse_qs(parsed_url.query)
     hdntl_value = query_params.get('hdntl', [None])[0]
 
     if hdntl_value:
+        # Save to cookie.txt
         with open('cookie.txt', 'w') as file:
             file.write(hdntl_value)
-        print("Cookie saved to cookie.txt")
-        
-        # Debug: show content of cookie.txt
-        with open('cookie.txt', 'r') as file:
-            print("Contents of cookie.txt:")
-            print(file.read())
+        print("\n✅ Cookie (hdntl) value:")
+        print(hdntl_value)  # Print cookie in Actions log
     else:
-        print("hdntl parameter not found.")
+        print("❌ hdntl parameter not found.")
 
 except requests.RequestException as e:
     print(f"Error: {e}")
