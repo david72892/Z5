@@ -1,10 +1,9 @@
 name: Get Cookie
 
-# Runs automatically every hour + manual trigger
 on:
   schedule:
-    - cron: '0 * * * *'  # At minute 0 every hour
-  workflow_dispatch:      # Allows manual run too
+    - cron: '0 * * * *'  # every hour
+  workflow_dispatch:      # manual run
 
 jobs:
   fetch-cookie:
@@ -27,3 +26,11 @@ jobs:
         python get_cookie.py
         echo "\n✅ Contents of cookie.txt:"
         cat cookie.txt || echo "cookie.txt not found"
+
+    - name: Commit and push cookie.txt
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "actions@github.com"
+        git add cookie.txt
+        git commit -m "Update cookie.txt"
+        git push origin main || echo "No changes to commit"
