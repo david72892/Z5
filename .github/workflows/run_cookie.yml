@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 * * * *' # Runs every hour
+    - cron: '0 * * * *' # every hour
 
 jobs:
   fetch-cookie:
@@ -24,7 +24,9 @@ jobs:
       run: pip install requests
 
     - name: Run cookie fetcher
-      run: python get_cookie.py
+      run: |
+        python get_cookie.py
+        cat cookie.txt || echo "cookie.txt not found"
 
     - name: Upload cookie file
       uses: actions/upload-artifact@v4
